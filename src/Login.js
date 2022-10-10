@@ -14,6 +14,21 @@ function Login() {
 
      const loginToApp = (e) => {
           e.preventDefault();
+
+          auth
+          .signInWithEmailAndPassword(email, password)
+          .then(userAuth => {
+               dispatch(
+                    login({
+                         email: userAuth.user.email,
+                         uid: userAuth.user.uid,
+                         displayName: userAuth.user.displayName,
+                         photoURL: userAuth.user.photoURL,
+                    })
+               );
+          })
+          .catch((error) => alert(error));
+
      };
 
      const register = () => {
@@ -21,19 +36,23 @@ function Login() {
               return alert('Please enter a full name!');
           }
           
-          auth.createUserWithEmailAndPassword(email, password).then(
-          (userAuth) => {
-               userAuth.user.updateProfile({
+          auth
+          .createUserWithEmailAndPassword(email, password)
+          .then( (userAuth) => {
+               userAuth.user
+               .updateProfile({
                     displayName: name,
                     photoURL: profilePic,
                })
-               .then(() => {
-                    dispatch(login({
-                         email: userAuth.user.email,
-                         uid: userAuth.user.uid,
-                         displayName: name,
-                         photoURL: profilePic,
-                    }));
+               .then((userAuth) => {
+                    dispatch(
+                         login({
+                              email: userAuth.user.email,
+                              uid: userAuth.user.uid,
+                              displayName: name,
+                              photoURL: profilePic,
+                         })
+                    );
                }); 
           }).catch((error) => alert(error));
      };

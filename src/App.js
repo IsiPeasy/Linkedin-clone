@@ -11,21 +11,26 @@ import { auth } from "./firebase";
 function App() {
 
   const user = useSelector(selectUser);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     auth.onAuthStateChanged(userAuth => {
       if(userAuth){
         //user is logged in
         dispatch(
           login({
-            email: userAuth.email,
-            uid: userAuth.uid,
-            displayName: userAuth.displayName,
-            photoUrl: userAuth.photoURL,
-        }));
+              email: userAuth.email,
+              uid: userAuth.uid,
+              displayName: userAuth.displayName,
+              photoUrl: userAuth.photoURL,
+          })
+        );
       }else{
         // logged out
-        dispatch(logout());
+        dispatch(
+          logout()
+        );
       }
     })    
   }, [])
