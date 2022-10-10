@@ -35,7 +35,7 @@ function Login() {
                          photoURL: profilePic,
                     }));
                }); 
-          })
+          }).catch((error) => alert(error));
      };
 
   return (
