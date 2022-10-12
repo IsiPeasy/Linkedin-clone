@@ -5,17 +5,17 @@ import "./App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Feed from "./Feed";
+import Widgets from "./Widgets";
 import Login from "./Login";
 import { auth } from "./firebase";
 
 function App() {
 
   const user = useSelector(selectUser);
-
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
-    auth.onAuthStateChanged(userAuth => {
+    auth.onAuthStateChanged((userAuth) => {
       if(userAuth){
         //user is logged in
         dispatch(
@@ -26,14 +26,12 @@ function App() {
               photoUrl: userAuth.photoURL,
           })
         );
-      }else{
+      } else {
         // logged out
-        dispatch(
-          logout()
-        );
+        dispatch(logout());
       }
-    })    
-  }, [])
+    });    
+  }, []);
   
 
   return (
@@ -45,7 +43,7 @@ function App() {
         <div className="app__body">
           <Sidebar />
           <Feed />
-          {/* Widgets */}
+          <Widgets /> 
         </div>
       )}
     </div>
