@@ -19,12 +19,12 @@ function Login() {
           .signInWithEmailAndPassword(email, password)
           .then(userAuth => {
                dispatch(
-                    login({
-                         email: userAuth.user.email,
-                         uid: userAuth.user.uid,
-                         displayName: userAuth.user.displayName,
-                         profilePic: userAuth.user.photoURL,
-                    })
+                 login({
+                   email: userAuth.user.email,
+                   uid: userAuth.user.uid,
+                   displayName: userAuth.user.displayName,
+                   profilePic: userAuth.user.photoUrl,
+                 })
                );
           })
           .catch((error) => alert(error));
@@ -40,20 +40,20 @@ function Login() {
           .createUserWithEmailAndPassword(email, password)
           .then( (userAuth) => {
                userAuth.user
-               .updateProfile({
-                    displayName: name,
-                    photoURL: profilePic,
-               })
-               .then((userAuth) => {
-                    dispatch(
-                         login({
-                              email: userAuth.user.email,
-                              uid: userAuth.user.uid,
-                              displayName: name,
-                              photoURL: profilePic,
-                         })
-                    );
-               }); 
+                 .updateProfile({
+                   displayName: name,
+                   photoUrl: profilePic,
+                 })
+                 .then((userAuth) => {
+                   dispatch(
+                     login({
+                       email: userAuth.user.email,
+                       uid: userAuth.user.uid,
+                       displayName: name,
+                       photoUrl: profilePic,
+                     })
+                   );
+                 }); 
           }).catch((error) => alert(error));
      };
 

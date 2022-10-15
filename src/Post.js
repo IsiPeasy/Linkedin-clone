@@ -5,10 +5,16 @@ import InputOption from './InputOption';
 import './Post.css'
 
 const Post = forwardRef(({name, description, message, photoUrl}, ref) => {
+  var firstLetter;
+  if(name){
+    firstLetter = name[0];
+  }else{
+    firstLetter = name;
+  }
   return (
     <div ref={ref} className="post">
       <div className="post__header">
-        <Avatar src={photoUrl}>{name[0]}</Avatar>
+        <Avatar src={photoUrl}>{firstLetter}</Avatar>
         <div className="post__info">
           <h2>{name}</h2>
           <p>{description}</p>
