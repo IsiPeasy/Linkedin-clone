@@ -1,68 +1,64 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { login } from "./features/userSlice";
-import { auth } from './firebase';
-import './Login.css'
+import { auth } from "./firebase";
+import "./Login.css";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [profilePic, setprofilePic] = useState("");
+  const dispatch = useDispatch();
 
-     const [email, setEmail] = useState('');
-     const [password, setPassword] = useState('');
-     const [name, setName] = useState('');
-     const [profilePic, setprofilePic] = useState('');
-     const dispatch = useDispatch();
+  const loginToApp = (e) => {
+    e.preventDefault();
 
-     const loginToApp = (e) => {
-          e.preventDefault();
-
-          auth
-          .signInWithEmailAndPassword(email, password)
-          .then(userAuth => {
-               dispatch(
-                 login({
-                   email: userAuth.user.email,
-                   uid: userAuth.user.uid,
-                   displayName: userAuth.user.displayName,
-                   profilePic: userAuth.user.photoUrl,
-                 })
-               );
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userAuth) => {
+        dispatch(
+          login({
+            email: userAuth.user.email,
+            uid: userAuth.user.uid,
+            displayName: userAuth.user.displayName,
+            profilePic: userAuth.user.photoURL,
           })
-          .catch((error) => alert(error));
+        );
+      })
+      .catch((error) => alert(error));
+  };
 
-     };
+  const register = () => {
+    if (!name) {
+      return alert("Please enter a full name!");
+    }
 
-     const register = () => {
-          if(!name){
-              return alert('Please enter a full name!');
-          }
-          
-          auth
-          .createUserWithEmailAndPassword(email, password)
-          .then( (userAuth) => {
-               userAuth.user
-                 .updateProfile({
-                   displayName: name,
-                   photoUrl: profilePic,
-                 })
-                 .then((userAuth) => {
-                   dispatch(
-                     login({
-                       email: userAuth.user.email,
-                       uid: userAuth.user.uid,
-                       displayName: name,
-                       photoUrl: profilePic,
-                     })
-                   );
-                 }); 
-          }).catch((error) => alert(error));
-     };
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userAuth) => {
+        userAuth.user
+          .updateProfile({
+            displayName: name,
+            photoUrl: profilePic,
+          })
+          .then((userAuth) => {
+            dispatch(
+              login({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: name,
+                photoUrl: profilePic,
+              })
+            );
+          });
+      })
+      .catch((error) => alert(error));
+  };
 
   return (
     <div className="login">
-      <img
-        src="src/photos/580b57fcd9996e24bc43c528.png"
-        alt="Linkedin"
-      />
+      <img src="src/photos/lnkd.png" alt="Linkedin" />
       <form>
         <input
           value={name}
@@ -87,8 +83,9 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           type="password"
+          autoComplete="on"
         />
-        <button type="submit" onClick={loginToApp}>
+        <button onClick={loginToApp} type="submit">
           Sign In
         </button>
       </form>
@@ -102,4 +99,4 @@ function Login() {
   );
 }
 
-export default Login
+export default Login;
